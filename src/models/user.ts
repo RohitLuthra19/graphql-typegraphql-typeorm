@@ -11,11 +11,11 @@ export class User extends BaseEntity {
   id: string;
 
   @Field(() => String)
-  @Column({ default: "user" })
+  @Column({ default: "admin" })
   role: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Field(() => String)
