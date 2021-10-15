@@ -1,5 +1,3 @@
-Contact email: rodrigo@travelience.com
-
 ## Project Description
 
 Create a GraphQL server to handle a simple user CRUD + Authentication.
