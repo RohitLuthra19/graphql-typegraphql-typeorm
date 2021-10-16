@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Authorized } from "type-graphql";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
@@ -9,14 +9,23 @@ import { UserResponse } from "../response/UserResponse";
 import { SECRET } from "../config";
 @Resolver()
 export class UserResolver {
+  @Authorized()
   @Query(() => [User])
   users() {
     return User.find();
   }
 
+  @Authorized()
   @Query(() => User)
   user(@Arg("id") id: string) {
     return User.findOne({ where: { id } });
+  }
+
+  @Authorized()
+  @Query(() => User)
+  authUser(req: any) {
+    console.log(req);
+    return User.findOne();
   }
 
   @Mutation(() => User)
@@ -35,6 +44,7 @@ export class UserResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => User)
   async updateUser(@Arg("id") id: string, @Arg("data") data: UpdateUserInput) {
     const user = await User.findOne({ where: { id } });
@@ -44,6 +54,7 @@ export class UserResolver {
     return user;
   }
 
+  @Authorized()
   @Mutation(() => Boolean)
   async deleteUser(@Arg("id") id: string) {
     const user = await User.findOne({ where: { id } });
